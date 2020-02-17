@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios'
+import Table from "./Table/Table";
+import AddPerson from "./AddPerson/AddPerson";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App  = () =>{
+    const [users, setUsers] = useState([])
+    const [isEditMode, setMode] = useState(false)
+    const apiURL = 'http://178.128.196.163:3000/api/records/'
+
+    const getData = ()=> {
+       const axiData = async ()=> {
+            await axios(apiURL)
+               .then(result => {
+                   const users = result.data
+                   setUsers(users)
+                  console.log(users)
+               })
+                .catch(err=> console.log(err.toString()))
+       }
+       axiData()
+    }
+ useEffect(()=> {
+    getData()
+},[])
+
+        return(
+            <div>
+                <h1>CRUD</h1>
+                <AddPerson getData ={getData} isEditMode = {isEditMode} setMode = {setMode} />
+                <Table users = {users} isEditMode = {isEditMode} setMode = {setMode} getData ={getData}  />
+            </div>
+        )
+
+
 }
+export default App
 
-export default App;
+
+
