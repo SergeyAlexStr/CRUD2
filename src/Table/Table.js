@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-
+import {Button} from 'react-bootstrap'
 import axios from 'axios'
 
 const Table = (props) => {
@@ -72,20 +72,20 @@ const Table = (props) => {
                     </td>
                         <td>
                             {props.isEditMode ? (
-                                <button onClick={updateDate}>
+                                <Button onClick={updateDate}>
                                            save
-                                </button>
+                                </Button>
                             ):(
-                                <button onClick={() => props.setMode(true)}>
+                                <Button onClick={() => props.setMode(true)}>
                                     edit
-                                </button>
+                                </Button>
                             )}
-                            <button
+                            <Button
                                 onClick={()=> deleteUser(user._id)}
                                 disabled={!props.isEditMode}
                             >
                                 delete
-                            </button>
+                            </Button>
 
                         </td>
                     </tr>

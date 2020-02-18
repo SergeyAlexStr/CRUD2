@@ -1,0 +1,11 @@
+.App {
+    margin-bottom: auto;
+    justify-content: center;
+}
+
+.h1 {
+    color: blueviolet;
+    margin-bottom: auto;
+    justify-content: center;
+    margin-left: 500px;
+}

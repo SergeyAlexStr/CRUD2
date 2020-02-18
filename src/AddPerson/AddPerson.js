@@ -1,5 +1,7 @@
 import React, {useState} from "react";
+import {Button, FormLabel} from "react-bootstrap";
 import axios from 'axios'
+
 
 const AddPerson = props => {
         const someState = {data: {name: ''}};
@@ -12,7 +14,7 @@ const AddPerson = props => {
     };
     return(
         <div>
-            <h3>Добавьте имя</h3>
+            <FormLabel>Добавьте имя</FormLabel>
             <form onSubmit={e => {
                 e.preventDefault();
                 if (!userName.data.name) return;
@@ -28,16 +30,17 @@ const AddPerson = props => {
                     .catch(err => console.error(toString()))
             }}>
             <label> user name </label>
-            <input type='text'
+            <input className = 'mb-1'
+                    type='text'
                    name='name'
                    value={userName.data.name}
                    onChange={inputHandleChange}
                    disabled={!!props.isEditMode}
             />
-            <button
+            <Button
             type='submit'
             disabled={!!props.isEditMode}
-            >+</button>
+            >+</Button>
         </form>
         </div>
     )

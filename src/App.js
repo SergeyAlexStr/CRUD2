@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import classes from './App.module.css'
 import axios from 'axios'
 import Table from "./Table/Table";
 import AddPerson from "./AddPerson/AddPerson";
@@ -24,7 +25,7 @@ const App = () => {
     }, []);
 
     return (
-        <div>
+        <div className={classes.h1}>
             <h1>CRUD</h1>
             <AddPerson getData={getData} isEditMode={isEditMode} setMode={setMode}/>
             <Table users={users} isEditMode={isEditMode} setMode={setMode} getData={getData}/>
