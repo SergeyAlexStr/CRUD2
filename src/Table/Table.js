@@ -3,34 +3,34 @@ import React, {useEffect, useState} from "react";
 import axios from 'axios'
 
 const Table = (props) => {
-    const [users, setUsers] = useState(props.users)
-    const [updateData, setUpdateData] = useState(false)
-    const apiURL = `http://178.128.196.163:3000/api/records/`
+    const [users, setUsers] = useState(props.users);
+    const [updateData, setUpdateData] = useState(false);
+    const apiURL = `http://178.128.196.163:3000/api/records/`;
 
-    useEffect(()=>{
+    useEffect(() => {
         setUsers(props.users)
-    }, [props])
+    }, [props]);
 
-   const inputHandleChange = (value, user) => {
-        setUpdateData(true)
-       let editUser = {...user, data: {name:value}}
-       users.map(user=> {
-           if (user._id === editUser._id){
-                user.data = editUser.data
-                user.edited = true
-           }
-       })
-   }
+    const inputHandleChange = (value, changedUser) => {
+        setUpdateData(true);
+        let editUser = {...changedUser, data: {name: value}};
+        users.forEach(user => {
+            if (user._id === editUser._id) {
+                user.data = editUser.data;
+                user.edited = true;
+            }
+        })
+    };
 
    const updateDate = () => {
         if (updateData) {
-            users.map(user => {
+            users.forEach(user => {
                 if (user.edited) {
                     axios.post(apiURL + user._id)
                         .then(res => {
-                            if (res.ok){
-                                props.getData()
-                                props.setMode(false)
+                            if (res.status === 200){
+                                props.getData();
+                                props.setMode(false);
                                 setUpdateData(false)
                             }
                         })
@@ -40,17 +40,17 @@ const Table = (props) => {
 } else props.setMode(false)
 
 
-    }
+    };
 
-   const deleteUser = (id)=> {
-        axios.delete(apiURL+ id)
+    const deleteUser = (id) => {
+        axios.delete(apiURL + id)
             .then(res => {
-                if (res.ok){
+                if (res.status === 200) {
                     props.getData()
                 }
             })
-            .catch(err=> console.log(err.toString()))
-    }
+            .catch(err => console.log(err.toString()))
+    };
 
     return(
         <table>
@@ -66,12 +66,12 @@ const Table = (props) => {
                     <td>
                         <input type='text'
                                defaultValue={user.data.name}
-                               disabled={props.isEditMode ? true : false}
+                               disabled={!props.isEditMode}
                                onChange={e => {inputHandleChange(e.target.value, user)}}
                         />
                     </td>
                         <td>
-                            {props.setMode ? (
+                            {props.isEditMode ? (
                                 <button onClick={updateDate}>
                                            save
                                 </button>
@@ -82,7 +82,7 @@ const Table = (props) => {
                             )}
                             <button
                                 onClick={()=> deleteUser(user._id)}
-                                disabled={props.isEditMode ? true : false}
+                                disabled={!props.isEditMode}
                             >
                                 delete
                             </button>
@@ -92,12 +92,12 @@ const Table = (props) => {
                 ))
             ):(
                 <tr>
-                    <td colSpan={3} ></td>
+                    <td colSpan={3}/>
                 </tr>
             )}
             </tbody>
         </table>
     )
-}
+};
 
 export default Table
